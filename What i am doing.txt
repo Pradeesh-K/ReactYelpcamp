@@ -1,0 +1,442 @@
+cd ReactYelpcamp
+npx create-vite client --template react
+cd client
+npm install
+
+Adding the "start": "react-scripts start" script inside the scripts section of your package.json (inside client folder) file allows you to start a development server with automatic rebuilding and hot-reloading for your React application.
+
+//app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.join(__dirname, 'client/dist/assets')));
+
+This line sets up Express to serve static files (like CSS, JavaScript, images, etc.) from the client/build directory.
+When a request is made for a static file (e.g., style.css, bundle.js), Express will look for it in the client/build directory and serve it if found.
+
+app.get('*', (req, res) => {...}):
+
+This route handler catches all routes (indicated by *), which allows the React Router (or any other client-side routing mechanism) to handle routing on the client-side.
+When a request is made to any route (*), it sends back the index.html file from the client/build directory.
+The index.html file is typically the entry point for a client-side application like React. It contains the necessary structure and script tags to load your React application.
+
+
+Creating versioning:
+cd ReactYelpcamp
+git init
+git checkout -b main
+git add .		// adds all files to the commit  or 
+git add hello.txt	// add specific file to commit
+git commit -m "Initial commit to main branch"
+git remote add origin https://github.com/Pradeesh-K/ReactYelpcamp.git
+git push -u origin main
+git pull origin main --allow-unrelated-histories //due to different version histories
+git pull origin main	//usually we do this
+Press i to enter insert mode.
+Add your desired commit message.
+Press Esc to exit insert mode.
+Type :wq and press Enter to save and close the file with your custom message.
+git push origin main
+
+check if i am correct: I create a branch locally, work on it, stage it, commit it locally, push it to remote repositary, in the remote repositary I create a pull request, compare files and merge
+
+Yes, you have a general understanding of the typical workflow for contributing to a Git repository collaboratively. Here's a breakdown of the steps you mentioned:
+
+Create a Branch Locally:
+You start by creating a new branch locally to work on a specific feature or fix.
+
+Work, Stage, and Commit Locally:
+Within that branch, you make changes, stage the changes you want to commit, and then commit them with an appropriate commit message.
+
+Push Changes to Remote Repository:
+After committing your changes locally, you push the branch to the remote repository to share your work with others.
+
+Create a Pull Request on Remote Repository:
+On the remote repository (e.g., GitHub), you create a pull request from the branch you pushed. This is a request to merge your changes into another branch, often the main branch.
+
+Compare Files and Review Changes:
+In the pull request, you can review the changes, have discussions, and ensure everything looks correct before merging.
+
+Merge Changes:
+After reviewing and ensuring the changes are correct, you merge the changes into the target branch, usually the main branch.
+
+This workflow allows for collaborative development and ensures that changes are reviewed before being merged into the main codebase. It's a best practice to have a clear and detailed description of your changes when creating the pull request to provide context and make the review process smoother.
+
+Keep in mind that the specifics of the process may vary based on the version control platform (e.g., GitHub, GitLab) and the team's preferred workflow.
+
+what steps did i miss in the above workflow
+ChatGPT
+The steps you mentioned cover the essential aspects of the typical Git workflow for collaborating and contributing to a repository. However, here are some additional steps and considerations you might want to incorporate for a more comprehensive workflow:
+
+Updating Local Repository:
+Before creating a new branch locally, it's good practice to ensure your local repository is up to date with the remote repository. You can do this with git pull to fetch the latest changes from the remote.
+
+Branch Naming Conventions:
+Adhere to a consistent and descriptive branch-naming convention. This helps in understanding the purpose of each branch and makes collaboration more efficient.
+
+Rebasing Before Pushing:
+Consider rebasing your branch with the latest changes from the target branch (e.g., main) before pushing. This helps in maintaining a cleaner history and resolving conflicts early.
+
+Handling Merge Conflicts:
+Understand how to resolve merge conflicts that might occur during a pull request. Learn to manually merge changes in case Git can't automatically do it.
+
+Testing and Quality Assurance:
+Before pushing and creating a pull request, thoroughly test your changes to ensure they function as expected and don't introduce new issues. Consider automated testing where applicable.
+
+Code Reviews:
+Encourage and actively participate in code reviews. Review your teammates' code and provide constructive feedback. Likewise, welcome and learn from feedback on your own code.
+
+Continuous Integration (CI) Pipelines:
+Integrate your repository with a CI system (e.g., Jenkins, Travis CI, GitHub Actions) to automatically run tests and perform checks on each pull request.
+
+Closing the Branch:
+Once the changes from a branch have been successfully merged, consider closing the branch to maintain a tidy repository.
+
+By incorporating these additional steps and best practices, you'll enhance the efficiency, collaboration, and quality of your workflow when using Git for collaborative development.
+
+
+Making a new branch:
+Before that I check if the both remote and local repos are same
+$ git pull
+There is no tracking information for the current branch.
+Please specify which branch you want to merge with.
+See git-pull(1) for details.
+
+    git pull <remote> <branch>
+
+If you wish to set tracking information for this branch you can do so with:
+
+    git branch --set-upstream-to=origin/<branch> main
+
+So I set
+git branch --set-upstream-to=origin/main main
+git pull
+git checkout -b adding-react
+git branch
+
+
+DB setup
+mongosh
+use ReactYelpcamp
+
+added in app.js
+// Serve the static files from the React app
+app.use(express.static(path.join(__dirname, 'client/dist/assets')));
+
+// Handle other routes and return the React app's index.html
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/dist/index.html'));
+});
+
+Now error
+$ npm install --save dotenv
+
+
+I reset the branch adding-react
+git checkout adding-react
+git reset --hard main
+
+
+
+There were like a billion errors
+I am gonna restart
+
+Finally it ran
+
+mkdir reactYelp
+cd reactYelp
+$ npm init -y
+npm install express
+ npm i nodemon
+npm i path
+touch app.js
+npx create-vite@latest client --template react-js
+choose react and javascript
+ cd client
+  npm install
+ npm install vite --save-dev
+npm run build
+cd ..
+nodemon app.js
+
+
+Now versioning
+git init
+git checkout -b main
+git add .		// adds all files to the commit  or 
+git commit -m "made a basic skeleton with react frontend and node backend"
+git remote remove origin
+git remote add origin https://github.com/Pradeesh-K/ReactYelpcamp.git
+git push -u --force origin main
+
+Done 
+
+Now 
+in app.js 
+const campgroundRoutes = require("./routes/campgrounds");
+app.use("/campgrounds", campgroundRoutes);
+
+in ./routes/campgrounds"
+const express = require("express");
+const router = express.Router();
+const catchAsync = require("../utils/catchAsync"); // .. since now we are in the routes directory and we have to go back to access other directories
+const { isLoggedIn, isAuthor, validateCampground } = require("../middleware");
+const campgrounds = require("../controllers/campgrounds");
+const multer = require("multer");
+const { storage } = require("../cloudinary");
+const upload = multer({ storage });
+
+router
+  .route("/")
+  .get(catchAsync(campgrounds.index))
+  .post(isLoggedIn,upload.array('image'),validateCampground, catchAsync(campgrounds.createCampground));
+// .post(isLoggedIn,validateCampground, catchAsync(campgrounds.createCampground));
+
+router.get("/new", isLoggedIn, campgrounds.renderNewForm);
+
+router
+  .route("/:id")
+  .get(catchAsync(campgrounds.showCampground))
+  .put(
+    isLoggedIn,
+    isAuthor,upload.array('image'),validateCampground,
+    catchAsync(campgrounds.updateCampground)
+  )
+  .delete(isLoggedIn, isAuthor, catchAsync(campgrounds.deleteCampground));
+
+router.get(
+  "/:id/edit",
+  isLoggedIn,
+  isAuthor,
+  catchAsync(campgrounds.renderEditForm)
+);
+
+module.exports = router;
+
+in /controllers/campgrounds
+const Campground = require('../models/campground');
+const { cloudinary } = require("../cloudinary");
+const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
+const mapboxToken = process.env.MAPBOX_TOKEN;
+const geocoder = mbxGeocoding({accessToken:mapboxToken});
+module.exports.index = async (req, res) => {
+    const campgrounds = await Campground.find({});
+    res.render('campgrounds/index', { campgrounds });
+}
+
+module.exports.renderNewForm = (req, res) => {
+    res.render('campgrounds/new');
+}
+
+module.exports.createCampground = async (req, res,next) => {
+    const geodata = await geocoder.forwardGeocode({query:req.body.location,limit:1}).send();
+    const newCampground = new Campground(req.body);
+    newCampground.geometry = geodata.body.features[0].geometry;
+    newCampground.images = req.files.map(file => ({url:file.path,filename:file.filename}));
+    newCampground.author = req.user._id;
+    await newCampground.save();
+    console.log(newCampground);
+    req.flash('success','Succesfully made a new campground');
+    res.redirect(`campgrounds/${newCampground._id}`);
+}
+
+module.exports.showCampground = async (req, res) => {
+    const { id } = req.params;
+    const campground = await Campground.findById(id).populate('author')
+    .populate({path:'reviews',
+    populate:{
+        path:'author'
+    }});
+    if(!campground){
+        req.flash('error',"Can't find that campground");
+        return res.redirect('/campgrounds');
+    }
+    else {
+        res.render('campgrounds/show', { campground });
+    }
+    
+}
+
+module.exports.renderEditForm  = async (req, res) => {
+    const { id } = req.params;
+    const campground = await Campground.findById(id);
+    if(!campground){
+        req.flash('error',"Can't find that campground");
+        return res.redirect('/campgrounds');
+    }
+    else {
+        res.render('campgrounds/edit', { campground });
+    }
+    
+}
+
+module.exports.updateCampground = async (req, res) => {
+    const { id } = req.params;
+    const campground = await Campground.findByIdAndUpdate(id, req.body, { runValidators: true, new: true });        //
+    const images = req.files.map(file => ({url:file.path,filename:file.filename}))
+    campground.images.push(...images);
+    await campground.save();
+    if(req.body.deleteImages){
+        for(let file of req.body.deleteImages){
+            await cloudinary.uploader.destroy(file);
+        }
+     await campground.updateOne({$pull:{images:{filename:{$in:req.body.deleteImages}}}})
+        console.log(campground);
+    }
+    req.flash('success','Campground updated succesfully !');
+    res.redirect(`/campgrounds/${campground._id}`);
+}
+
+module.exports.deleteCampground = async (req, res) => {
+    const { id } = req.params;
+    const campground = await Campground.findByIdAndDelete(id);
+    req.flash('success','Successfully deleted a campground');
+    res.redirect(`/campgrounds`);
+}
+
+in /models/campground
+const mongoose = require('mongoose');
+const Review = require('./review');
+const Schema = mongoose.Schema;
+
+const opts = { toJSON: {virtuals: true}};
+const imageSchema = new Schema({url:String,
+    filename:String,})
+imageSchema.virtual('thumbnail').get(function() {
+    return this.url.replace('/upload','/upload/w_250');
+});
+const campgroundSchema = new Schema({
+    title:{
+        type:String,
+        // required:true
+    },
+    // image:{
+    //     type:String
+    // },
+    images:[imageSchema],
+    price:{
+        type:Number,
+        // required: true,
+        // min:0
+    },
+    description:{
+        type:String,
+        // required:true
+    },
+    location:{
+        type:String,
+        // required:true
+    },
+    geometry: {
+        type: {
+          type: String, // Don't do `{ location: { type: String } }`
+          enum: ['Point'], // 'location.type' must be 'Point'
+          required: true
+        },
+        coordinates: {
+          type: [Number],
+          required: true
+        }
+      },
+    author:{
+        type:Schema.Types.ObjectId,
+        ref:'User'
+    },
+    reviews:[{
+        type:Schema.Types.ObjectId,
+        ref:'Review'
+    }]
+    
+},opts);
+
+campgroundSchema.virtual('properties.popupMarkup').get(function() {
+    return `<strong><a href="/campgrounds/${this._id}">${this.title}</a></strong>
+    <p>${this.description.substr(0,40)}...<p>`;
+});
+
+campgroundSchema.post('findOneAndDelete',async function (camp)  {
+    if(camp ){
+        const result = await Review.deleteMany({_id:{$in:camp.reviews}})
+        console.log(result);
+    }
+})
+//longway
+const Campground = mongoose.model('Campground', campgroundSchema);
+module.exports = Campground;   //to export and use in other files
+
+
+//shortway
+// module.exports = mongoose.model('Campground', campgroundSchema);  //to export and use in other files
+
+
+
+Understanding MVC pattern
+M - backend
+V - frontend
+C - Backend
+
+
+how to view folder structure in git
+ls
+
+My folders
+client/         
+node_modules/       
+routes/
+cloudinary/
+package.json     
+package-lock.json   
+schemas.js             
+controllers/
+seeds/
+middleware.js
+public/
+utils/
+app.js
+models/
+views/
+
+
+current branch
+git branch
+
+stage all changes
+git add .
+
+check if all staged
+git status
+
+merge npm-package-add to main
+
+push main
+
+added material ui npm
+
+Added navbar as per the file
+
+Now i have to seed the db ?
+
+We should run both nodemon app.js for backend and npm start at client folder for react. Only then the changes in react app reflect
+To run npm start we should
+ npm install react-scripts --save
+and add
+"start": "react-scripts start" to scripts in package.json of client
+
+I am gonna do the bookstore project tomorrow
+If the guys dont stay here
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
