@@ -103,7 +103,7 @@ See git-pull(1) for details.
 
 If you wish to set tracking information for this branch you can do so with:
 
-    git branch --set-upstream-to=origin/<branch> main
+git branch --set-upstream-to=origin/<branch> main
 
 So I set
 git branch --set-upstream-to=origin/main main
@@ -426,16 +426,90 @@ If the guys dont stay here
 
 
 
+Making a new folder structure altogether
+frontend
+backend
+
+git checkout -b newFolderStructure
+deleted client folder
+made a backend folder
+added all backend files to it
+git add .		// adds all files to the commit  or 
+git commit -m "made a backend folder, deleted client folder"
+git push -u origin newFolderStructure 
+
+making frontend part
+npm create vite@latest
+folder name frontend, 
+react and javascript
+  cd frontend
+  npm install
+
+ npm install --global yarn
+
+npm i react-bootstrap
+npm i react-router-dom
+npm show react-router-dom version
+npm WARN config global `--global`, `--local` are deprecated. Use `--location=global` instead.
+6.16.0
+ npm install -S react-router-bootstrap
+npm i notistack
+
+reactYelp/backend (newFolderStructure)
+$ npm i cors
 
 
+in main.jsx
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App.jsx'
+import './index.css'
+import {BrowserRouter} from 'react-router-dom'
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <BrowserRouter>
+    <SnackbarProvider><App /></SnackbarProvider>
+  </BrowserRouter>,
+)
+
+in frontend/src, create components and pages folder
+in app.jsx use router and serve home
+
+/reactYelp/backend (newFolderStructure)
+$ npm i nodemon
+
+/reactYelp/frontend (newFolderStructure)
+$ npm i axios
 
 
+I should implement cors in backend
+
+in home response.data is rendered
+
+Now the shell is ready
+To add details
+
+save in git
+
+git add .		// adds all files to the commit  or 
+git commit -m "made a frontend folder to render react"
+git push -u origin newFolderStructure 
 
 
+I should complete the backend part first
 
+I'll just try to render the home, index and show pages first
 
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
+app.engine("ejs", ejsMate); //engines
 
+Overall, these settings configure Express to use EJS as the view engine and look for view templates in the "views" directory, allowing you to render EJS templates using the .render() method in your routes.
 
+Correct, when using React to render the frontend in a single-page application (SPA), traditional server-side view rendering configurations like setting the view engine and directory (app.set("views", ...) and app.set("view engine", ...)) are not needed.
+
+I'm skipping sessions and authentication as of now
+Make campground routes work and then do further
 
 
 
