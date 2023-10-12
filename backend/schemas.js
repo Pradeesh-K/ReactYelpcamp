@@ -1,4 +1,4 @@
-const baseJoi = require("joi");
+// const baseJoi = require("joi");
 
 // const sanitizeHtml = require("sanitize-html");
 
@@ -24,6 +24,8 @@ const baseJoi = require("joi");
 // });
 
 // const Joi = baseJoi.extend(extension);
+
+const Joi = require("joi");
 
 module.exports.campgroundSchema = Joi.object({
   title: Joi.string().required().escapeHTML(),

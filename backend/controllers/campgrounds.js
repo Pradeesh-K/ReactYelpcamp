@@ -1,11 +1,18 @@
 const Campground = require('../models/campground');
-const { cloudinary } = require("../cloudinary");
-const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
-const mapboxToken = process.env.MAPBOX_TOKEN;
-const geocoder = mbxGeocoding({accessToken:mapboxToken});
+// const { cloudinary } = require("../cloudinary");
+// const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
+// const mapboxToken = process.env.MAPBOX_TOKEN;
+// const geocoder = mbxGeocoding({accessToken:mapboxToken});
+
 module.exports.index = async (req, res) => {
-    const campgrounds = await Campground.find({});
-    res.render('campgrounds/index', { campgrounds });
+        //not using try and catch as the function catchAsync does that
+        const campgrounds = await Campground.find({});
+        // const books = await Book.find({});
+        return res.status(200).json({
+            count: campgrounds.length,
+            data: campgrounds })
+
+    // res.render('campgrounds/index', { campgrounds });
 }
 
 module.exports.renderNewForm = (req, res) => {
